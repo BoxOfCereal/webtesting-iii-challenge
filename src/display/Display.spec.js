@@ -24,5 +24,17 @@ describe("<Display/>", () => {
     getByText(/open/i);
   });
 
-  it("by default locked class is `green-led`", () => {});
+  it("by default locked class is `green-led`", () => {
+    const { getByText } = render(<Display />);
+    const className = `led green-led`;
+    const lockedDisplay = getByText(/Unlocked/i);
+    expect(lockedDisplay.className).toBe(className);
+  });
+
+  it("by default closed class is `green-led`", () => {
+    const { getByText } = render(<Display />);
+    const className = `led green-led`;
+    const closedDisplay = getByText(/open/i);
+    expect(closedDisplay.className).toBe(className);
+  });
 });
