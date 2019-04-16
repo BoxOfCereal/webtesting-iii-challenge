@@ -1,8 +1,9 @@
 // Test away!
 import React from "react";
 import renderer from "react-test-renderer"; // 1: install this npm module as a dev dependency
-import { render, fireEvent } from "react-testing-library";
+import { render, fireEvent, cleanup } from "react-testing-library";
 import "jest-dom/extend-expect";
+afterEach(cleanup);
 
 import Controls from "./Controls";
 
@@ -34,5 +35,28 @@ describe("<Controls/>", () => {
     const { getByText } = render(<Controls />);
     const closeButton = getByText(/close gate/i);
     expect(closeButton).toBeEnabled();
+  });
+
+  it("should call toggleLocked on click", () => {
+    const toggleLockedMock = jest.fn();
+    //need to close it before locking
+    const { getByText } = render(
+      <Controls toggleLocked={toggleLockedMock} closed={true} />
+    );
+
+    const lockButton = getByText(/lock gate/i);
+    console.log(lockButton);
+    fireEvent.click(lockButton);
+
+    expect(toggleLockedMock).toBeCalledTimes(1);
+  });
+  it("should call toggleClosed on click", () => {
+    const toggleClosedMock = jest.fn();
+    const { getByText } = render(<Controls toggleClosed={toggleClosedMock} />);
+
+    const closeButton = getByText(/close gate/i);
+    fireEvent.click(closeButton);
+
+    expect(toggleClosedMock).toBeCalledTimes(1);
   });
 });
