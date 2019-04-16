@@ -63,4 +63,19 @@ describe("<Dashboard/>", () => {
     const openButton = getByText(/open gate/i);
     expect(openButton).toBeDisabled();
   });
+  it("allows you to open the gate once it's been unlocked", () => {
+    const { getByText } = render(<Dashboard />);
+    const closeButton = getByText(/close gate/i);
+    const lockButton = getByText("Lock Gate");
+
+    fireEvent.click(closeButton);
+    fireEvent.click(lockButton);
+
+    const openButton = getByText(/open gate/i);
+    const unlock = getByText("Unlock Gate");
+
+    fireEvent.click(unlock);
+
+    expect(openButton).toBeEnabled();
+  });
 });
