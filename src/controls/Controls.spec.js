@@ -45,7 +45,6 @@ describe("<Controls/>", () => {
     );
 
     const lockButton = getByText(/lock gate/i);
-    console.log(lockButton);
     fireEvent.click(lockButton);
 
     expect(toggleLockedMock).toBeCalledTimes(1);
