@@ -15,4 +15,13 @@ describe("<Controls/>", () => {
     // snapshots are a JSON representation of the DOM tree
     expect(tree.toJSON()).toMatchSnapshot();
   });
+
+  it("by default displays a button with `Lock Gate`", () => {
+    const { getByText } = render(<Controls />);
+    getByText(/lock gate/i);
+  });
+  it("by default displays a button with `Close Gate`", () => {
+    const { getByText } = render(<Controls />);
+    getByText(/close gate/i);
+  });
 });
