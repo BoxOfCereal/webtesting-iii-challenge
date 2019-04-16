@@ -2,6 +2,7 @@
 import React from "react";
 import renderer from "react-test-renderer"; // 1: install this npm module as a dev dependency
 import { render, fireEvent } from "react-testing-library";
+import "jest-dom/extend-expect";
 
 import Controls from "./Controls";
 
@@ -23,5 +24,15 @@ describe("<Controls/>", () => {
   it("by default displays a button with `Close Gate`", () => {
     const { getByText } = render(<Controls />);
     getByText(/close gate/i);
+  });
+  it("by default lock gate is disabled", () => {
+    const { getByText } = render(<Controls />);
+    const lockButton = getByText(/lock gate/i);
+    expect(lockButton).toBeDisabled();
+  });
+  it("by default close gate is enabled", () => {
+    const { getByText } = render(<Controls />);
+    const closeButton = getByText(/close gate/i);
+    expect(closeButton).toBeEnabled();
   });
 });
