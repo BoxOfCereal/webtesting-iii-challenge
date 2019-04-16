@@ -2,6 +2,7 @@
 import React from "react";
 import renderer from "react-test-renderer"; // 1: install this npm module as a dev dependency
 import { render, fireEvent } from "react-testing-library";
+import "jest-dom/extend-expect";
 
 const clickNTimes = elm => n => {
   for (let i = 0; i < n; i++) {
@@ -40,5 +41,26 @@ describe("<Dashboard/>", () => {
     clickNTimes(closeButton)(2);
 
     expect(closedStatus.textContent).toBe("Open");
+  });
+
+  it("enables the lock the gate button once it's closed", () => {
+    const { getByText } = render(<Dashboard />);
+    const closeButton = getByText(/close gate/i);
+    const lockButton = getByText("Lock Gate");
+
+    fireEvent.click(closeButton);
+
+    expect(lockButton).toBeEnabled();
+  });
+  it("disables the open gate button once it's locked", () => {
+    const { getByText } = render(<Dashboard />);
+    const closeButton = getByText(/close gate/i);
+    const lockButton = getByText("Lock Gate");
+
+    fireEvent.click(closeButton);
+    fireEvent.click(lockButton);
+
+    const openButton = getByText(/open gate/i);
+    expect(openButton).toBeDisabled();
   });
 });
